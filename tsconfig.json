@@ -14,7 +14,8 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "paths": {
-      "@@apis/*": [ "./src/apis/*" ],
+      "@@apis/*": [ "./src/universal/apis/*" ],
+      "@@modules/*": [ "./src/universal/modules/*" ],
     },
     "strictNullChecks": true,
     "target": "es6"

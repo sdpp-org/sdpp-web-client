@@ -2,7 +2,8 @@ module.exports = {
   plugins: [
     ['module-resolver', {
       'alias': {
-        "@@apis": "./src/apis",
+        "@@apis": "./src/universal/apis",
+        "@@modules": "./src/universal/modules",
       },
     }],
   ],

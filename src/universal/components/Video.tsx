@@ -4,6 +4,8 @@ import React, {
   useEffect,
 } from 'react';
 
+import axios from '@@modules/axios';
+
 const endPoint = 'http://localhost:4001';
 
 const Video = () => {
@@ -32,15 +34,9 @@ const Video = () => {
         buffer = mediaSource.addSourceBuffer(mime);
         buffer.addEventListener('updateend', () => {
           console.log('updateend', mediaSource.sourceBuffers, queue);
-
-          if (queue.length > 0) {
-            // buffer.appendBuffer(queue.shift());
-          }
         });
 
-        buffer.addEventListener('error', (e) => {
-          console.log('error', e);
-        });
+        buffer.addEventListener('error', (e, ...args) => console.log('error', e, args));
         buffer.addEventListener('abort', () => console.log('abort'));
       });
 
@@ -55,6 +51,10 @@ const Video = () => {
 
       fetch(`${endPoint}/video`).then();
     }
+
+    axios.get('http://httpbin.org')
+      .then((d) => {
+      })
   }, []);
 
   return (
@@ -71,26 +71,3 @@ const Video = () => {
 };
 
 export default Video;
-
-function handleSourceOpen(e, queue) {
-  console.log(123, 3);
-  const mediaSource = e.target;
-  const mime = 'video/mp4; codecs="avc1.64001e"';
-  const buffer = mediaSource
-    .addSourceBuffer(mime);
-
-  buffer.addEventListener('updateend', () => {
-    console.log(123, 333);
-  });
-
-  buffer.addEventListener('update', function() { // Note: Have tried 'updateend'
-    if (queue.length > 0 && !buffer.updating) {
-      console.log(123, 4);
-      buffer.appendBuffer(queue.shift());
-    }
-  });
-
-  setTimeout(() => {
-    buffer.appendBuffer(queue.shift());
-  }, 5000);
-}
