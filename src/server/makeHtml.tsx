@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components'
 
 import {
   addPath,
@@ -30,6 +31,9 @@ const makeHtml: MakeHtml = async function ({
     />
   );
 
+  const sheet = new ServerStyleSheet();
+  const styledComponentsStyleTags = sheet.getStyleTags();
+
   const appRootInString = renderToString(element);
   console.log('[make-html] assets: %s', assets);
 
@@ -42,6 +46,7 @@ const makeHtml: MakeHtml = async function ({
   <title>express-isomorphic-example</title>
   <script>window['universalState']=${JSON.stringify(universalState)}</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+  ${styledComponentsStyleTags}
 </head>
 <body>
   <div id="app-root">${appRootInString}</div>
