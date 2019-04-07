@@ -3,86 +3,13 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import styled from 'styled-components';
 
+import App from './App';
 import axios from '@@modules/axios';
-// import { sendPayment } from '@@modules/apis';
 
 const endpoint = 'http://localhost:4001';
 
-const StyledMenu = styled.div`
-  cursor: pointer;
-  &:hover {
-    color: blue;
-  }
-`;
-
-const Pay = ({
-  handleClickPay,
-}) => {
-  return (
-    <div onClick={handleClickPay}>
-      pay to fail
-    </div>
-  );
-};
-
-const PaySucceed = ({
-  handleClickPaySucceed,
-}) => {
-  return (
-    <div onClick={handleClickPaySucceed}>
-      pay to succeed
-    </div>
-  );
-}
-
-const VideoStatus = ({
-  videoStatus,
-}) => {
-  return (
-    <div>
-      <p>
-        Video Status
-      </p>
-      <p>
-        {videoStatus.videoPos}
-      </p>
-      <p>
-        {videoStatus.flag}
-      </p>
-    </div>
-  )
-}
-
-const Addr = ({
-  addr,
-}) => {
-  return (
-    <div>
-      <p>Address</p>
-      <p>{addr}</p>
-    </div>
-  );
-};
-
-const Menus = ({
-  handleClickMenu,
-  menu,
-}) => {
-  return !!menu && menu.map((m) => {
-    return (
-      <StyledMenu
-        key={m}
-        onClick={handleClickMenu}
-      >
-        {m}
-      </StyledMenu>
-    );
-  });
-};
-
-const Video = () => {
+const AppContainer = () => {
   const queue: any[] = [];
   let mediaSource;
   let buffer;
@@ -92,9 +19,9 @@ const Video = () => {
     videoPos: 0,
     flag: false,
   });
+  const [ paymentStatus, setPaymentStatus ] = useState('');
 
   const handleClickPay = useCallback(() => {
-    console.log('addr', data.payment_address_of_the_seller);
     axios.post(`${endpoint}/apis/pay`, {
       targetAddress: data.payment_address_of_the_seller,
     })
@@ -104,11 +31,12 @@ const Video = () => {
   }, [ data ]);
 
   const handleClickPaySucceed = useCallback(async () => {
-    const value = await axios.post(`${endpoint}/apis/pay-succeed`, {
+    const result = await axios.post(`${endpoint}/apis/pay-succeed`, {
       targetAddress: data.payment_address_of_the_seller,
-    })
-    console.log(123, value);
-  }, [ data ]);
+    });
+
+    // setPaymentStatus(result);
+  }, [ data, paymentStatus ]);
 
   const handleClickMenu = useCallback((e) => {
     togglePlay(true);
@@ -152,7 +80,7 @@ const Video = () => {
       });
 
       socket.on('fake-video', (videoPos, flag) => {
-        console.log('flag', data, flag);
+        // console.log('flag', data, flag);
         setVideoStatus({
           videoPos,
           flag,
@@ -175,34 +103,19 @@ const Video = () => {
   }, []);
 
   return (
-    <>
-      <Addr
-        addr={data.payment_address_of_the_seller}
-      />
-      <Menus
-        handleClickMenu={handleClickMenu}
-        menu={data.menu}
-      />
-      <VideoStatus
-        videoStatus={videoStatus}
-      />
-      <Pay
-        handleClickPay={handleClickPay}
-      />
-      <PaySucceed
-        handleClickPaySucceed={handleClickPaySucceed}
-      />
-      <video
-        controls
-        id="videoPlayer"
-        muted
-        preload="all"
-      />
-    </>
+    <App
+      handleClickMenu={handleClickMenu}
+      handleClickPay={handleClickPay}
+      handleClickPaySucceed={handleClickPaySucceed}
+      menu={data.menu}
+      paymentAddr={data.payment_address_of_the_seller}
+      paymentStatus={paymentStatus}
+      videoStatus={videoStatus}
+    />
   );
 };
 
-export default Video;
+export default AppContainer;
 
 const togglePlay = (toggle) => {
   const videoPlayer = document.getElementById('videoPlayer') as any;
@@ -212,4 +125,4 @@ const togglePlay = (toggle) => {
   } else {
     videoPlayer.pause();
   }
-}
+};

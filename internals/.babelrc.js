@@ -1,5 +1,12 @@
 module.exports = {
   plugins: [
+    [
+      'babel-plugin-styled-components',
+      {
+        displayName: true,
+        ssr: true,
+      },
+    ],
     ['module-resolver', {
       'alias': {
         "@@apis": "./src/universal/apis",

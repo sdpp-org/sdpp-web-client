@@ -8,7 +8,6 @@ import {
   MakeHtml,
   requireUniversalComponent,
 } from '@nodekit/express-isomorphic';
-import { Locals } from './server';
 import ServerApp from './ServerApp';
 
 const makeHtml: MakeHtml = async function ({
@@ -21,8 +20,6 @@ const makeHtml: MakeHtml = async function ({
   const universalState = {
     foo: '1313',
   };
-
-  console.log('request headers: %o', resLocals.headers);
 
   const element = (
     <ServerApp

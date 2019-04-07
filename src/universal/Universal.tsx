@@ -1,28 +1,17 @@
 import React, { useState, useMemo } from 'react';
+import styled from 'styled-components';
 
-import Header from './components/Header';
-import TransferredState from './components/TransferredState';
+import AppContainer from './components/AppContainer';
+import GlobalStyle from './components/GlobalStyle';
 import UniversalContext from './contexts/UniversalContext';
-import Video from './components/Video';
 
 const Universal: UniversalType = ({
-  addPath,
 }) => {
-  const [ count, setCount ] = React.useState(0);
-
-  const handleClickButton = useMemo(
-    () => {
-      return () => {
-        setCount(count + 1);
-      };
-    },
-    [count],
-  );
-
   return (
-    <div>
-      <Video />
-    </div>
+    <>
+      <GlobalStyle />
+      <AppContainer />
+    </>
   );
 };
 
