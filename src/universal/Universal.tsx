@@ -21,13 +21,6 @@ const Universal: UniversalType = ({
 
   return (
     <div>
-      <Header />
-      <div>
-        <p>[count]</p>
-        <p>{count}</p>
-        <button onClick={handleClickButton}>add</button>
-      </div>
-      <TransferredState />
       <Video />
     </div>
   );
