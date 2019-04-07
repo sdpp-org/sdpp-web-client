@@ -3,10 +3,10 @@ import React, { useState, useMemo } from 'react';
 import Header from './components/Header';
 import TransferredState from './components/TransferredState';
 import UniversalContext from './contexts/UniversalContext';
+import Video from './components/Video';
 
 const Universal: UniversalType = ({
   addPath,
-  children,
 }) => {
   const [ count, setCount ] = React.useState(0);
 
@@ -28,7 +28,7 @@ const Universal: UniversalType = ({
         <button onClick={handleClickButton}>add</button>
       </div>
       <TransferredState />
-      {children}
+      <Video />
     </div>
   );
 };
@@ -44,4 +44,8 @@ type UniversalType = React.FC<UniversalProps> & { contexts };
 interface UniversalProps {
   addPath?: Function;
   children?: React.ReactNode;
+}
+
+declare global {
+  const io;
 }
