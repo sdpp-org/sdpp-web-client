@@ -5,9 +5,9 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 
-const ValueArea = styled.p`
+const ValueArea = styled.div`
   background-color: #f1f1f1;
-  padding: 7px 3px;
+  padding: 8px 7px;
   word-wrap: break-word;
   width: 100%;
 `;

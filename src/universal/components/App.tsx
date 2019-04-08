@@ -9,6 +9,7 @@ import Header from './Header';
 import Menu from './Menu';
 import PaymentAddress from './PaymentAddress';
 import PaymentButtonGroup from './PaymentButtonGroup';
+import PaymentStatus from './PaymentStatus';
 import VideoStatus from './VideoStatus';
 
 const StyledApp = styled.div`
@@ -29,7 +30,6 @@ const App = ({
   paymentStatus,
   videoStatus,
 }) => {
-  console.log(123, paymentStatus);
   return (
     <StyledApp>
       <Header />
@@ -47,8 +47,9 @@ const App = ({
         handleClickPay={handleClickPay}
         handleClickPaySucceed={handleClickPaySucceed}
       />
-      <div>
-      </div>
+      <PaymentStatus
+        paymentStatus={paymentStatus}
+      />
       <StyledVideo
         controls={false}
         id="videoPlayer"

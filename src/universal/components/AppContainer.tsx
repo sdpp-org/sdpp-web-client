@@ -19,15 +19,14 @@ const AppContainer = () => {
     videoPos: 0,
     flag: false,
   });
-  const [ paymentStatus, setPaymentStatus ] = useState('');
+  const [ paymentStatus, setPaymentStatus ] = useState({ paymentResult: {}});
 
-  const handleClickPay = useCallback(() => {
-    axios.post(`${endpoint}/apis/pay`, {
+  const handleClickPay = useCallback(async () => {
+    const result = await axios.post(`${endpoint}/apis/pay`, {
       targetAddress: data.payment_address_of_the_seller,
-    })
-      .then((res) => {
-        console.log(123, res);
-      });
+    });
+
+    setPaymentStatus(result.data);
   }, [ data ]);
 
   const handleClickPaySucceed = useCallback(async () => {
@@ -35,7 +34,7 @@ const AppContainer = () => {
       targetAddress: data.payment_address_of_the_seller,
     });
 
-    // setPaymentStatus(result);
+    setPaymentStatus(result.data);
   }, [ data, paymentStatus ]);
 
   const handleClickMenu = useCallback((e) => {
